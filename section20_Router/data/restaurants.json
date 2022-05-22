@@ -1,0 +1,17 @@
+[
+    {   "id"  : "r1",
+        "name": "마켓보로",
+        "address": "천호대로 89길 12",
+        "cuisine": "서울",
+        "website": "http://www.naver.com",
+        "description": "asdf"
+    },
+    {
+        "id"   : "r2",
+        "name": "마켓컬리",
+        "address": "장안동",
+        "cuisine": "서울",
+        "website": "http://www.naver.com",
+        "description": "asdfxvzxcv"
+    }
+]
