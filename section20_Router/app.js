@@ -26,6 +26,7 @@ app.post('/recommend',(req,res)=>{
     const restaurant = req.body;
     // npm i uuid 로 고유 아이디 할당.
     restaurant.id = uuid.v4();
+    // util 폴더에 filepath 관련 모듈 설정함.
     const restaurants = getStoredRestaurants();
 
     restaurants.push(restaurant);
