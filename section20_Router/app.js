@@ -61,7 +61,7 @@ app.get('/restaurants/:id',(req,res)=>{
             return res.render('restaurant-detail',{rid : restaurantId,restaurant : restaurant});
         }
     });
-    return res.render('404');
+    return res.status(404).render('404');
 });
 
 app.get('/confirm',(req,res)=>{
@@ -72,13 +72,16 @@ app.get('/about',(req,res)=>{
     res.render('about')
 });
 
+
 app.use((req,res)=>{
-    res.render(404);
+    console.log('404에러발생')
+    res.status(404).render('404');
 });
+
 
 // 전역에 미들웨어를 선언하기 때문에 꼭 4개의 파라미터를 받아야함(next())
 app.use((err,req,res,next)=>{
-    res.render('500');
+    res.status(500).render('500');
     next();
 });
 
