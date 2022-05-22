@@ -72,5 +72,14 @@ app.get('/about',(req,res)=>{
     res.render('about')
 });
 
+app.use((req,res)=>{
+    res.render(404);
+});
+
+// 전역에 미들웨어를 선언하기 때문에 꼭 4개의 파라미터를 받아야함(next())
+app.use((err,req,res,next)=>{
+    res.render('500');
+    next();
+});
 
 app.listen(3000);
