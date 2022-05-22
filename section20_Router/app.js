@@ -26,14 +26,13 @@ app.post('/recommend',(req,res)=>{
     const restaurant = req.body;
     // npm i uuid 로 고유 아이디 할당.
     restaurant.id = uuid.v4();
-    const filePath = path.join(__dirname,'data','restaurants.json');
+    const restaurants = getStoredRestaurants();
 
-    const fileData = fs.readFileSync(filePath);
-    const storeRestaurants = JSON.parse(fileData);
+    restaurants.push(restaurant);
 
-    storeRestaurants.push(restaurant);
+    storeRestaurants(restaurants);
 
-    fs.writeFileSync(filePath,JSON.stringify(storeRestaurants));
+    
 
     res.redirect('/confirm');
 })
