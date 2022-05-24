@@ -1,10 +1,10 @@
 const path = require('path');
-const fs = require('fs');
-
 const express = require('express');
-const uuid = require('uuid');
 
-const resData = require('./util/restaurant-data');
+
+// 라우트 설정
+const defaultRoutes = require('./routes/default');
+const restaurantRoutes = require('./routes/restaurants');
 
 const app = express();
 
@@ -16,75 +16,22 @@ app.set('view engine', 'ejs');
 app.use(express.static('public'));
 
 // json형태로 받아온다.
-app.use(express.urlencoded({extended:false}))
+app.use(express.urlencoded({extended:false}));
+
+// 라우트 설정
+app.use('/',defaultRoutes);
+app.use('/',restaurantRoutes);
 
 
+// 404 에러
+app.use((req,res)=>{
+    console.log('404에러발생')
+    res.status(404).render('404');
+});
 // 전역에 미들웨어를 선언하기 때문에 꼭 4개의 파라미터를 받아야함(next())
 app.use((err,req,res,next)=>{
     res.status(500).render('500');
     next();
-});
-
-app.get('/',(req,res)=>{
-    res.render('index');
-});
-
-
-app.get('/recommend',(req,res)=>{
-    res.render('recommend');
-});
-
-app.post('/recommend',(req,res)=>{
-    const restaurant = req.body;
-    // npm i uuid 로 고유 아이디 할당.
-    restaurant.id = uuid.v4();
-    // util 폴더에 filepath 관련 모듈 설정함.
-    const restaurants = resData.getStoredRestaurants();
-
-    restaurants.push(restaurant);
-
-    resData.storeRestaurants(restaurants);
-
-    
-
-    res.redirect('/confirm');
-})
-
-app.get('/restaurants',(req,res)=>{
-    const storedRestaurants = resData.getStoredRestaurants();
-
-
-
-    res.render('restaurants',
-    {numberOfRestaurants: storedRestaurants.length, 
-     restaurants: storedRestaurants}); // render시 ejs로 보낼 객체를 선언할 수 있다.
-});
-
-app.get('/restaurants/:id',(req,res)=>{
-    const restaurantId = req.params.id
-    // util에 있는 restaurant-data 참조
-    const storedRestaurants = resData.getStoredRestaurants();
-
-    storedRestaurants.forEach(restaurant => {
-        if (restaurant.id === restaurantId){
-            // 노란색 restaurant는 foreach 의 restaurant를 뜻하며, 흰색 restaurant는 ejs로 보낼 키를 뜻함.
-            return res.render('restaurant-detail',{rid : restaurantId,restaurant : restaurant});
-        }
-    });
-    return res.status(404).render('404');
-});
-
-app.get('/confirm',(req,res)=>{
-    res.render('confirm')
-});
-
-app.get('/about',(req,res)=>{
-    res.render('about')
-});
-
-app.use((req,res)=>{
-    console.log('404에러발생')
-    res.status(404).render('404');
 });
 
 
