@@ -5,11 +5,34 @@ const router  = express.Router();
 
 
 router.get('/restaurants',(req,res)=>{
+    let order = req.query.order;
+    // query는 항상 access 가능하다. body는 post일때만 가능
+    let nextOrder = 'desc';
+
+    if (order !=='asc' && order !=='desc'){
+        order = 'asc';
+    }
+    if(order ==='desc'){
+        nextOrder = 'asc';
+    }
+
     const storedRestaurants = resData.getStoredRestaurants();
+    // 정렬(알파벳 순으로 정렬한다.)
+    storedRestaurants.sort((resA,resB)=>{
+        if (
+            (order ==='asc' && resA.name > resB.name) ||
+            (order ==='desc' && resA.name < resB.name)
+        ) {
+            return 1;
+        } 
+        return -1;
+    });
 
     res.render('restaurants',
     {numberOfRestaurants: storedRestaurants.length, 
-     restaurants: storedRestaurants}); // render시 ejs로 보낼 객체를 선언할 수 있다.
+     restaurants: storedRestaurants,
+     nextOrder : nextOrder
+    }); // render시 ejs로 보낼 객체를 선언할 수 있다.
 });
 
 router.get('/restaurants/:id',(req,res)=>{
@@ -43,5 +66,9 @@ router.post('/recommend',(req,res)=>{
 
     res.redirect('/confirm');
 });
+
+router.get('/confirm',(req,res)=>{
+    res.render('confirm')
+})
 
 module.exports = router;
