@@ -26,13 +26,12 @@ app.use('/',restaurantRoutes);
 
 // 404 에러
 app.use((req,res)=>{
-    res.render('404');
+    res.status(404).render('404');
 });
 
 // 전역에 미들웨어를 선언하기 때문에 꼭 4개의 파라미터를 받아야함(next())
 app.use((err,req,res,next)=>{
     res.status(500).render('500');
-    next();
 });
 
 

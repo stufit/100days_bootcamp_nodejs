@@ -8,7 +8,6 @@ greetUser('kylee');
 // 파라미터값에 특정값 선언해주면 함수 호출시에 빈 값이여도 undefined가 아닌 선언값이 리턴됨.
 greetUser();
 
-
 // [2-1] 해당 함수는 만약 num3이 없다면 num3이 undefined 이므로 덧셈을 하면 nan 이 뜨기 때문에, num3=0 처럼 지정해줘야 하지만 이것은 아직 불안정함
 function sumUp(num1, num2, num3=0){
     return num1 + num2 + num3
@@ -35,8 +34,15 @@ function sumUp3(...numbers){
 }
 console.log(sumUp3(3,4,5,7,2)) // 배열로 안넣고 , 넣어도 배열로 인식
 
-// [2-3-2] 만약 input data가 배열일 경우에는 파라미터 값에다가도 세점 연산자를 사용한다.
+// [2-3-2] 만약 input data가 배열일 경우에는 파라미터 값에다가도 세점 연산자(스프레드 연산자)를 사용한다.
 // 세점 연산자는 스프레드 형식이기 때문에 배열을 풀어주는 역할을 하기 때문이다.
 const inputNumbers = [1,5,7,2,66,4,3];
 console.log(sumUp3(inputNumbers)) // input data가 배열이기 때문에 더할 수 없음
 console.log(sumUp3(...inputNumbers)) // 세점 연산자로 스프레드 해주기 때문에 정상적으로 더해짐.
+
+// [3] 역따움표 : 매개변수 값 등을 넣을 수 있음
+// 파이썬에서 f"{}" 랑 비슷한 역할을 함.
+function test(parm1, parm2='hi'){
+    console.log(`${parm1} ${parm2}!!`)
+}
+test(2,'굿');
