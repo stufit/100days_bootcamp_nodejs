@@ -87,7 +87,8 @@ router.post('/posts/:id/edit', async(req,res)=>{
   const result = await db.getDb().collection('posts').updateOne({_id : postId},{$set :{
     title : req.body.title,
     summary : req.body.summary,
-    body : req.body.content
+    body : req.body.content,
+    //date : new Date()   게시물이 업데이트 될 때 업데이트 시간도 새로 정의하여 업데이트 가능
   }});
 
   res.redirect('/posts');
